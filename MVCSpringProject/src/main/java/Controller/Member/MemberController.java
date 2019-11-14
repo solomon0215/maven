@@ -2,9 +2,16 @@ package Controller.Member;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-
+import Command.Member.MemberCommand;
+//  http://localhost:8080/MVCSpringProject/register/agree
+//						url								/
+//						 / 			uri 				/
+// 			domain		 /
+// 						 / contextPath    /
+//										  / 快府啊 盔窍绰 林家 /
 @Controller
 public class MemberController {
 	@RequestMapping("/register/agree")
@@ -21,5 +28,16 @@ public class MemberController {
 			return "member/agree";
 		}
 		return "member/memberForm";
+	}
+	
+	@RequestMapping(value="/member/memberJoinAction", method = RequestMethod.POST)
+	public String join(MemberCommand memberCommand) {
+		System.out.println(memberCommand.getUserBirth());
+		System.out.println("/member/memberJoinAction");
+		return "member/memberWelcom";
+	}
+	@RequestMapping(value="/member/memberJoinAction", method = RequestMethod.GET)
+	public String memberJoinGet() {
+		return "redirect:../register/agree";
 	}
 }
