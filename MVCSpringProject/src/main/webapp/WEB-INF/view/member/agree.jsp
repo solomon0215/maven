@@ -9,7 +9,7 @@
 <body>
    <h2>약관</h2>
    <p>약관 내용</p>
-   <form action="regist" method="post">
+   <form action="../member/regist" method="post">
       <label>
       <input type = "checkbox" name="agree" value="true">약관 동의
       </label>
