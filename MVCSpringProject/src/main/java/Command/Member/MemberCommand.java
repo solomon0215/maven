@@ -6,7 +6,7 @@ public class MemberCommand {
 	private String userPw;
 	private String userPwCon;
 	private String userName;
-	private String userBirth;
+	private String userBir;
 	private String userGender;
 	private String userEmail;
 	private String userAddr;
@@ -36,11 +36,11 @@ public class MemberCommand {
 	public void setUserName(String userName) {
 		this.userName = userName;
 	}
-	public String getUserBirth() {
-		return userBirth;
+	public String getUserBir() {
+		return userBir;
 	}
-	public void setUserBirth(String userBirth) {
-		this.userBirth = userBirth;
+	public void setUserBir(String userBir) {
+		this.userBir = userBir;
 	}
 	public String getUserGender() {
 		return userGender;

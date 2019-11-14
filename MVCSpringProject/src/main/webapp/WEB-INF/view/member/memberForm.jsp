@@ -32,8 +32,8 @@
          </tr>
          <tr>
             <td width="200">생년월일</td>
-            <td width="400"><input type="date" name="userBirth"
-               id="userBirth" size="12" maxlength="10"></td>
+            <td width="400"><input type="date" name="userBir"
+               id="userBir" size="12" maxlength="10"></td>
          </tr>
          <tr>
             <td width="200">성별</td>

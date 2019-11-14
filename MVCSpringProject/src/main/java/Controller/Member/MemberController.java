@@ -1,11 +1,14 @@
 package Controller.Member;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import Command.Member.MemberCommand;
+import Service.Member.MemberJoinService;
 //  http://localhost:8080/MVCSpringProject/register/agree
 //						url								/
 //						 / 			uri 				/
@@ -14,6 +17,9 @@ import Command.Member.MemberCommand;
 //										  / 快府啊 盔窍绰 林家 /
 @Controller
 public class MemberController {
+	@Autowired
+	private MemberJoinService memberJoinService;
+
 	@RequestMapping("/register/agree")
 	public String agree() {
 		System.out.println("/register/agree");
@@ -31,9 +37,9 @@ public class MemberController {
 	}
 	
 	@RequestMapping(value="/member/memberJoinAction", method = RequestMethod.POST)
-	public String join(MemberCommand memberCommand) {
-		System.out.println(memberCommand.getUserBirth());
+	public String join(MemberCommand memberCommand, Model model) {
 		System.out.println("/member/memberJoinAction");
+		memberJoinService.execute(memberCommand, model);
 		return "member/memberWelcom";
 	}
 	@RequestMapping(value="/member/memberJoinAction", method = RequestMethod.GET)

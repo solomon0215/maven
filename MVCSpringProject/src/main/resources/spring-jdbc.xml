@@ -9,7 +9,7 @@
 		destroy-method="close">
 		<property name="driverClass" value="oracle.jdbc.driver.OracleDriver"/>
 		<property name="jdbcUrl" value="jdbc:oracle:thin:@localhost:1521:XE"/>
-		<property name="user" value="STUDY"/>
-		<property name="password" value="STUDY"/>
+		<property name="user" value="smrit"/>
+		<property name="password" value="alsqhd12"/>
 	</bean>
 </beans>
