@@ -16,12 +16,12 @@ import Model.DTO.MemberDTO;
 @Service
 public class MemberJoinService {
 	@Autowired
-	private MemberDTO memberDTO;
-	@Autowired
 	private MemberDAO memberDAO; 
-	
-	public void execute(MemberCommand memberCommand,Model model) {
+	private MemberDTO memberDTO = new MemberDTO();
+	public Integer execute(MemberCommand memberCommand,Model model) {
+		Integer result = 0;
 		try {
+			
 			SimpleDateFormat dt = new SimpleDateFormat("yyMMdd");
 			Date date = dt.parse(memberCommand.getUserBir());
 			Timestamp userBir = new Timestamp(date.getTime());
@@ -36,9 +36,10 @@ public class MemberJoinService {
 			memberDTO.setUserPw(
 					Encrypt.getEncryption(memberCommand.getUserPw())
 					);
-			memberDAO.insertMember(memberDTO);
+			result = memberDAO.insertMember(memberDTO);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		return result;
 	}
 }

@@ -12,6 +12,9 @@ public class MemberCommand {
 	private String userAddr;
 	private String userPh1;
 	private String userPh2;
+	public boolean isPasswordEqualToConfirmPassword() {
+		return this.userPw.equals(this.userPwCon);
+	}
 	public String getUserId() {
 		return userId;
 	}

@@ -14,6 +14,25 @@ public class MemberDTO {
 	Timestamp userBir;
 	String userAddr;
 	String checkNum;
+	
+	
+	public MemberDTO() {
+	}
+	public MemberDTO(Timestamp userRegister, String userPw, String userPh2, String userPh1, String userName,
+			String userId, String userGender, String userEmail, Timestamp userBir, String userAddr, String checkNum) {
+		super();
+		this.userRegister = userRegister;
+		this.userPw = userPw;
+		this.userPh2 = userPh2;
+		this.userPh1 = userPh1;
+		this.userName = userName;
+		this.userId = userId;
+		this.userGender = userGender;
+		this.userEmail = userEmail;
+		this.userBir = userBir;
+		this.userAddr = userAddr;
+		this.checkNum = checkNum;
+	}
 	public Timestamp getUserRegister() {
 		return userRegister;
 	}

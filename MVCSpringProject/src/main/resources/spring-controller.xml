@@ -8,6 +8,8 @@
                			http://www.springframework.org/schema/context
                			http://www.springframework.org/schema/context/spring-context.xsd">
 	<context:annotation-config/>
+	<bean class="Controller.Member.MainController" />
+	<bean class="Controller.Member.LoginController" />
 	<bean class="Controller.Member.MemberController" />
 	<bean class="SpringController.HelloController" />    
 </beans>               

@@ -9,6 +9,6 @@
                			http://www.springframework.org/schema/context/spring-context.xsd">
 	<context:annotation-config/>
 	<bean id="memberJoinService" class="Service.Member.MemberJoinService"/>
-	<bean id="memberDTO" class="Model.DTO.MemberDTO"/>
+	<bean id="authService" class="Service.Member.AuthService"/>
 	<bean id="memberDAO" class="Model.DAO.MemberDAO"/>               			
 </beans>               
