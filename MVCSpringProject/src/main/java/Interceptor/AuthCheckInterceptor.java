@@ -6,17 +6,16 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
-// Â÷´Ü
-public class AuthCheckInterceptor extends HandlerInterceptorAdapter{
-	@Override
-	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
-			throws Exception {
-		// TODO Auto-generated method stub
-		// sessionÀÌ ¾øÀ» ¶§¸¸ Interceptor
-		HttpSession session = request.getSession();
-		if(session != null) {
+//  ì°¨ë‹¨ 
+public class AuthCheckInterceptor 
+					extends HandlerInterceptorAdapter{
+	public boolean preHandle(HttpServletRequest request, 
+			HttpServletResponse response, Object handler) throws Exception {
+		// sessionì´ ì—†ì„ ë•Œë§Œ Interceptor
+		HttpSession session = request.getSession(false);		
+		if (session != null) {
 			Object authInfo = session.getAttribute("authInfo");
-			if(authInfo != null) {
+			if (authInfo != null) {
 				return true;
 			}
 		}
@@ -24,3 +23,9 @@ public class AuthCheckInterceptor extends HandlerInterceptorAdapter{
 		return false;
 	}
 }
+
+
+
+
+
+

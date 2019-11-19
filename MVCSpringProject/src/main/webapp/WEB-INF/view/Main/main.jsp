@@ -16,18 +16,15 @@
 	commandName="loginCommand" >
 <table border =1>
 <tr><td colspan=3>
-		<spring:message code="autoLogin"/>
-		<form:checkbox path="autoLogin"/>
+		<spring:message code="autoLogin" />
+		<form:checkbox path="autoLogin" />
 	</td></tr>
 <tr><td>아이디</td>
-    <td><form:input id="id1" path="id1"/>
+    <td><form:input id="id1" path="id1"  />
     	<form:errors path="id1" />
     </td>
-	<td>
-		<form:checkbox path="idStore" value="" />
-		<spring:message code="rememberId"/>
- 	</td>
-		 
+	<td><form:checkbox  path="idStore" /> :
+	<spring:message code="rememberId" />  </td>
 </tr>
 <tr><td>비밀번호</td>
 	<td><form:password id="pw" path="pw" />

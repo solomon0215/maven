@@ -29,5 +29,4 @@ public class LoginCommand {
 	public void setPw(String pw) {
 		this.pw = pw;
 	}
-
 }

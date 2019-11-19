@@ -28,26 +28,15 @@ public class LoginController {
 	public String form(LoginCommand loginCommand) {
 		return "Main/main";
 	}
-	//response 는 페이지의 형태 바꿈, sendRedirect, Cookie 생성 역할
 	@RequestMapping(method = RequestMethod.POST)
 	public String submit(LoginCommand loginCommand, Errors errors,
-			HttpSession session,Model model, HttpServletResponse response) {
+			HttpSession session, HttpServletResponse response) {
 		new LoginCommandValidator().validate(loginCommand, errors);
 		if (errors.hasErrors()) {
+			System.out.println("submit");
 			return "Main/main";
 		}
-		try {
-			AuthInfo authInfo = 
-					authService.authenticate(loginCommand, response);
-			if(authInfo.getPw().equals(
-					Encrypt.getEncryption(loginCommand.getPw()))) {
-				session.setAttribute("authInfo",authInfo);
-			}else {
-				errors.rejectValue("pw","wrong");
-			}
-		}catch(Exception e) {
-			errors.rejectValue("id1","notId");			
-		}
+		authService.authenticate(loginCommand,response,session,errors);
 		return "Main/main";
 	}
 }

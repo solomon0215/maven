@@ -20,7 +20,8 @@ public class PasswordModifyController {
 	@RequestMapping(value="/edit/pwModifyPro", 
 			method = RequestMethod.POST)
 	public String pwModify(ChangePwdCommand changePwdCommand,
-			Errors errors,HttpSession session, HttpServletRequest request) {
+			Errors errors,HttpSession session,
+			HttpServletRequest request) {
 	   new ChangePwdCommandValidator().validate(changePwdCommand, errors);
 		if(errors.hasErrors()) {
 			return "member/memberPwModify";
@@ -29,7 +30,7 @@ public class PasswordModifyController {
 				changePwdCommand,session);
 		System.out.println("pwModify : " + result);
 		if(result > 0) {
-			return "redirect:"+ request.getContextPath() +"/main";
+			return "redirect:" + request.getContextPath() +"/main";
 		}else{
 			System.out.println("pwModify : " + result);
 			errors.rejectValue("currentPassword", "notCurrent");
