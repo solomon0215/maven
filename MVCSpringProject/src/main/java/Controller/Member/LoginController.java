@@ -1,15 +1,19 @@
 package Controller.Member;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import Command.Member.LoginCommand;
+import Encrypt.Encrypt;
 import Model.DTO.AuthInfo;
 import Service.Member.AuthService;
 import Validator.LoginCommandValidator;
@@ -18,37 +22,41 @@ import Validator.LoginCommandValidator;
 @RequestMapping("/login")
 public class LoginController {
 	@Autowired
-	private AuthService authService;
+	AuthService authService;
 	
-	private AuthInfo authInfo;
 	@RequestMapping(method = RequestMethod.GET)
-	public String form(Model model) {
-		model.addAttribute("command", new LoginCommand());
-		return "main/main";
+	public String form(LoginCommand loginCommand) {
+		return "Main/main";
 	}
-	
+	//response 는 페이지의 형태 바꿈, sendRedirect, Cookie 생성 역할
 	@RequestMapping(method = RequestMethod.POST)
-	public String submit(LoginCommand command, Errors errors,HttpSession session, Model model) {
-		model.addAttribute("command", command);
-		new LoginCommandValidator().validate(command, errors);
-		if(errors.hasErrors()) {
-			return "main/main";
+	public String submit(LoginCommand loginCommand, Errors errors,
+			HttpSession session,Model model, HttpServletResponse response) {
+		new LoginCommandValidator().validate(loginCommand, errors);
+		if (errors.hasErrors()) {
+			return "Main/main";
 		}
 		try {
-			authInfo = authService.authenticate(command);
-			if(authInfo.getPw().equals(Encrypt.Encrypt.getEncryption(command.getPw()))) {
-				session.setAttribute("authInfo", authInfo);
+			AuthInfo authInfo = 
+					authService.authenticate(loginCommand, response);
+			if(authInfo.getPw().equals(
+					Encrypt.getEncryption(loginCommand.getPw()))) {
+				session.setAttribute("authInfo",authInfo);
 			}else {
-				errors.rejectValue("pw", "wrongpw");
+				errors.rejectValue("pw","wrong");
 			}
-			return "main/main";
-		} catch (Exception e) {
-			errors.rejectValue("id1", "wrongid");
-			e.printStackTrace();
-			return "main/main";
+		}catch(Exception e) {
+			errors.rejectValue("id1","notId");			
 		}
+		return "Main/main";
 	}
-	
-	
-	
 }
+
+
+
+
+
+
+
+
+

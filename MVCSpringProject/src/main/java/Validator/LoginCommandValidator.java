@@ -6,7 +6,7 @@ import org.springframework.validation.Validator;
 
 import Command.Member.LoginCommand;
 
-public class LoginCommandValidator implements Validator {
+public class LoginCommandValidator implements Validator{
 
 	public boolean supports(Class<?> clazz) {
 		// TODO Auto-generated method stub
@@ -15,8 +15,9 @@ public class LoginCommandValidator implements Validator {
 
 	public void validate(Object target, Errors errors) {
 		// TODO Auto-generated method stub
-		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "id1", "required");
+		System.out.println("LoginCommandValidator");
+		ValidationUtils.rejectIfEmptyOrWhitespace(errors, 
+					"id1", "required");
 		ValidationUtils.rejectIfEmpty(errors, "pw", "required");
 	}
-
 }

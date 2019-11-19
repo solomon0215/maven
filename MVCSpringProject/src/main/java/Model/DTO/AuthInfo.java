@@ -5,12 +5,15 @@ public class AuthInfo {
 	private String email;
 	private String name;
 	private String pw;
-	public AuthInfo(String id, String email, String name, String pw) {
-		super();
+	public AuthInfo(String id, String email, String name,
+			String pw) {
 		this.id = id;
 		this.email = email;
 		this.name = name;
 		this.pw = pw;
+	}
+	public String getPw() {
+		return pw;
 	}
 	public String getId() {
 		return id;
@@ -21,7 +24,5 @@ public class AuthInfo {
 	public String getName() {
 		return name;
 	}
-	public String getPw() {
-		return pw;
-	}
+	
 }

@@ -10,42 +10,45 @@ import org.springframework.validation.Validator;
 import Command.Member.MemberCommand;
 
 public class MemberCommandValidator implements Validator{
-			//°¡-ÆR 
-			//Ã¹±ÛÀÚ 			Ã¹±ÛÀÚ´ÙÀ½				@ÀÌ´ÙÀ½ 		Á¡´ÙÀ½
-	private static final String emailRegExp = 
+	private static final String emailRegExp =
 			"^[_A-Za-z0-9-]+(.[_A-Za-z0-9-]+)*@(?:\\w+\\.)+\\w+$";
 	private Pattern pattern;
-	public MemberCommandValidator() {
-		this.pattern = Pattern.compile(emailRegExp);
-	}
 	
+	public MemberCommandValidator() {
+		pattern = Pattern.compile(emailRegExp);
+	}
 	public boolean supports(Class<?> clazz) {
 		return MemberCommand.class.isAssignableFrom(clazz);
 	}
-
 	public void validate(Object target, Errors errors) {
 		MemberCommand regReq = (MemberCommand) target;
-		if(regReq.getUserEmail() == null || regReq.getUserEmail().trim().isEmpty()) {
+		if (regReq.getUserEmail() == null || 
+				regReq.getUserEmail().trim().isEmpty()) {
+			/*Errorsì˜ rejectValue()ë©”ì„œë“œëŠ” 
+			 * ì²« ë²ˆì§¸ íŒŒë¼ë¯¸í„°ë¡œ í”„ë¡œí¼í‹°ì˜ ì´ë¦„ì„ ì „ë‹¬ë°›ê³ , 
+			 * ë‘ ë²ˆì§¸ íŒŒë¼ë¯¸í„°ë¡œ í”„ë¡œí¼í‹°ì˜ ì—ëŸ¬ ì½”ë“œë¥¼ ì„¤ì •í•œë‹¤
+			 */
 			errors.rejectValue("userEmail", "required"); 
-		}else {
+		} else {
 			Matcher matcher = pattern.matcher(regReq.getUserEmail());
-			if(!matcher.matches()) {
-				errors.rejectValue("userEmail", "bad"); 
+			if (!matcher.matches()) {
+				// â€œuserEmail" í”„ë¡œí¼í‹°ì˜ ì—ëŸ¬ ì½”ë“œë¡œ â€bad"ë¥¼ ì¶”ê°€
+				errors.rejectValue("userEmail", "bad");
 			}
-		}
-		//ValidationUtils Å¬·¡½º´Â °´Ã¼ÀÇ °ª °ËÁõ ÄÚµå¸¦ °£°áÇÏ°Ô ÀÛ¼ºÇÒ ¼ö ÀÖµµ·Ï  µµ¿ÍÁØ´Ù.
-		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "userName", "required");
+		} 
+		//ValidationUtils í´ë˜ìŠ¤ëŠ” ê°ì²´ì˜ ê°’ ê²€ì¦ì½”ë“œë¥¼ ê°„ê²°í•˜ê²Œ ì‘ì„±í•  ìˆ˜ ìˆë„ë¡ ë„ì™€ì¤€ë‹¤.
+		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "userName", 
+															"required");
 		ValidationUtils.rejectIfEmpty(errors, "userPw", "required");
 		ValidationUtils.rejectIfEmpty(errors, "userId", "required");
 		ValidationUtils.rejectIfEmpty(errors, "userPh1", "required");
 		ValidationUtils.rejectIfEmpty(errors, "userAddr", "required");
-		ValidationUtils.rejectIfEmpty(errors, "userBir", "required");
+		ValidationUtils.rejectIfEmpty(errors, "userBirth", "required");
 		ValidationUtils.rejectIfEmpty(errors, "userPwCon", "required");
-		if(!regReq.getUserPw().isEmpty()) {
-			if(!regReq.isPasswordEqualToConfirmPassword()) {
+		if (!regReq.getUserPw().isEmpty()) {
+			if (!regReq.isPasswordEqualToConfirmPassword()) {
 				errors.rejectValue("userPwCon", "nomatch");
 			}
 		}
 	}
-	
 }

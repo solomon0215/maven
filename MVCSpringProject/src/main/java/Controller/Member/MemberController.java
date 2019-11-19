@@ -12,52 +12,70 @@ import Command.Member.MemberCommand;
 import Service.Member.MemberJoinService;
 import Validator.MemberCommandValidator;
 
-//  http://localhost:8080/MVCSpringProject/register/agree
-//						url								/
-//						 / 			uri 				/
-// 			domain		 /
-// 						 / contextPath    /
-//										  / øÏ∏Æ∞° ø¯«œ¥¬ ¡÷º“ /
 @Controller
 public class MemberController {
+	/*
+	// http://localhost:8080/MVCSpringProject/register/agree
+	//                        url
+	//                      /             uri               /
+	//         ÎèÑÎ©îÏù∏         /
+	//                      /   contextPath  /
+	//                                       /Ïö∞Î¶¨Í∞Ä ÏõêÌïòÎäî Ï£ºÏÜå  /
+	HttpServletRequest request;
+	String RequestURI = request.getRequestURI();
+	String contextPath = request.getContextPath();
+	String command = RequestURI.substring(
+			contextPath.length());
+	// http://localhost:8080/MVCSpringProject/register/agree
+	 */
 	@Autowired
 	private MemberJoinService memberJoinService;
-
+	
 	@RequestMapping("/register/agree")
 	public String agree() {
-		System.out.println("/register/agree");
+		System.out.println("aaaa");
 		return "member/agree";
 	}
-
-	@RequestMapping("/member/regist")
-	public String memberForm(@RequestParam(value = "agree", defaultValue = "false") Boolean agree, Model model) {
-		System.out.println("/member/agree");
-		model.addAttribute("memberCommand", new MemberCommand());
-		if (!agree) {
+	@RequestMapping("/register/regist")
+	public String  memberForm(
+			@RequestParam(value="agree",defaultValue ="false" )
+			Boolean agree, Model model) {
+		if(!agree) {
 			return "member/agree";
 		}
+		model.addAttribute("memberCommand", new MemberCommand());
 		return "member/memberForm";
 	}
-
-	@RequestMapping(value = "/member/memberJoinAction", method = RequestMethod.POST)
-	public String join(MemberCommand memberCommand, Model model, Errors errors) {
-		System.out.println("/member/memberJoinAction");
+	@RequestMapping(value= "/register/memberJoinAction", 
+			method=RequestMethod.POST)
+	public String  memberJoin(MemberCommand memberCommand, Model model
+			,Errors errors) {
 		new MemberCommandValidator().validate(memberCommand, errors);
-		if (errors.hasErrors()) {
+		if(errors.hasErrors()) {
 			return "member/memberForm";
 		}
-		Integer result = memberJoinService.execute(memberCommand, model);
-		System.out.println(result);
-		if (result == 0) {
-			errors.rejectValue("userId", "duplicate");
-			return "member/memberForm";
-		}
-		return "member/memberWelcom";
-
+			Integer i = memberJoinService.execute(memberCommand, model);
+			if(i == null) {
+				errors.rejectValue("userId", "duplicate");
+				return "member/memberForm";
+			}
+			return "member/memberWelcome";
 	}
-
-	@RequestMapping(value = "/member/memberJoinAction", method = RequestMethod.GET)
-	public String memberJoinGet() {
-		return "redirect:../register/agree";
+	@RequestMapping(value= "/register/memberJoinAction", 
+			method=RequestMethod.GET)
+	public String  memberJoinGet(MemberCommand memberCommand) {
+		
+		return "redirect:agree";
 	}
 }
+
+
+
+
+
+
+
+
+
+
+
