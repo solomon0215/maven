@@ -26,17 +26,19 @@ public class LoginController {
 	
 	@RequestMapping(method = RequestMethod.GET)
 	public String form(LoginCommand loginCommand) {
-		return "Main/main";
+		return "redirect:/main";
 	}
 	@RequestMapping(method = RequestMethod.POST)
 	public String submit(LoginCommand loginCommand, Errors errors,
-			HttpSession session, HttpServletResponse response) {
+			HttpSession session,HttpServletResponse response) {
 		new LoginCommandValidator().validate(loginCommand, errors);
 		if (errors.hasErrors()) {
 			System.out.println("submit");
 			return "Main/main";
 		}
-		authService.authenticate(loginCommand,response,session,errors);
+		authService.authenticate(loginCommand,response, 
+							session, errors);
+		
 		return "Main/main";
 	}
 }

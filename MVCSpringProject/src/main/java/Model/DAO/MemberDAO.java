@@ -11,11 +11,32 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 
+import Command.Member.ListCommand;
 import Command.Member.LoginCommand;
 import Model.DTO.MemberDTO;
 
 public class MemberDAO {
 	private JdbcTemplate jdbcTemplate;
+	
+	private RowMapper<MemberDTO> memRowMapper = 
+			new RowMapper<MemberDTO>() {
+		public MemberDTO mapRow(ResultSet rs, int rowNum) 
+				throws SQLException {
+			// TODO Auto-generated method stub
+			MemberDTO member = new MemberDTO();
+			member.setUserId(rs.getString("USER_ID"));
+			member.setUserName(rs.getString("USER_NAME"));
+			member.setUserEmail(rs.getString("USER_EMAIL"));
+			member.setUserPh1(rs.getString("USER_PH1"));
+			member.setUserRegist(rs.getTimestamp("USER_REGIST"));
+			member.setUserAddr(rs.getString("USER_ADDR"));
+			member.setUserBirth(rs.getTimestamp("USER_BIRTH"));
+			member.setUserGender(rs.getString("USER_GENDER"));
+			member.setUserPh2(rs.getString("USER_PH2"));
+			member.setUserPw(rs.getString("USER_pw"));
+			return member;
+		}
+	};
 	@Autowired
 	public MemberDAO(DataSource dataSource) {
 		this.jdbcTemplate = new JdbcTemplate(dataSource);
@@ -50,6 +71,15 @@ public class MemberDAO {
 				, memberDTO.getUserPh1(), memberDTO.getUserPh2());
 		return i;
 	}
+	public List<MemberDTO> selectList(ListCommand listCommand){
+		String sql = "select USER_ID, USER_PW, USER_NAME,"
+				+ " USER_BIRTH, USER_GENDER, USER_EMAIL,"
+				+ " USER_ADDR, USER_PH1, USER_PH2, USER_REGIST "
+				+ " from member where USER_REGIST between ? and ? ";
+		List<MemberDTO> results = jdbcTemplate.query(sql,memRowMapper,
+				listCommand.getFrom(), listCommand.getTo());
+		return results;
+	}
 	public MemberDTO selectByUserId(LoginCommand loginCommand) {
 		MemberDTO member = null;
 		String sql = "select USER_ID, USER_PW, USER_NAME,"
@@ -57,23 +87,7 @@ public class MemberDAO {
 				+ " USER_ADDR, USER_PH1, USER_PH2, USER_REGIST "
 				+ " from member where USER_ID = ?";
 		List<MemberDTO> results = jdbcTemplate.query(sql, 
-				new RowMapper<MemberDTO>() {
-					public MemberDTO mapRow(ResultSet rs, int rowNum) throws SQLException {
-						// TODO Auto-generated method stub
-						MemberDTO member = new MemberDTO();
-						member.setUserId(rs.getString("USER_ID"));
-						member.setUserName(rs.getString("USER_NAME"));
-						member.setUserEmail(rs.getString("USER_EMAIL"));
-						member.setUserPh1(rs.getString("USER_PH1"));
-						member.setUserRegist(rs.getTimestamp("USER_REGIST"));
-						member.setUserAddr(rs.getString("USER_ADDR"));
-						member.setUserBirth(rs.getTimestamp("USER_BIRTH"));
-						member.setUserGender(rs.getString("USER_GENDER"));
-						member.setUserPh2(rs.getString("USER_PH2"));
-						member.setUserPw(rs.getString("USER_pw"));
-						return member;
-					}
-		},loginCommand.getId1());
+				memRowMapper,loginCommand.getId1());
 		member = results.isEmpty()? null: results.get(0);
 		return member;
 	}

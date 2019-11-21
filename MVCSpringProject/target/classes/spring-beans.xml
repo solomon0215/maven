@@ -18,5 +18,7 @@
 							class="Service.Member.PasswordModifyService"/>
 <bean id = "mainService" 
 							class="Service.Main.MainService"/>
+<bean id = "memberListService" 
+							class="Service.Member.MemberListService"/>
 
 </beans>

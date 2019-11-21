@@ -45,9 +45,9 @@
 <c:if test="${!empty authInfo}">
 <a href="member/memberDetail">내 정보</a>
 <a href="logout" >로그아웃</a>
-<a href ="memberList.nhn">회원리스트</a>
+<a href ="member/list">회원리스트</a>
 <a href ="#">공지사항 게시판</a>
-<a href ="answerBoard.ab">답변형 게시판</a>
+<a href ="board/answerBoard">답변형 게시판</a>
 <a href ="goodsList.gd">상품목록</a>
 </c:if>
 </body>
