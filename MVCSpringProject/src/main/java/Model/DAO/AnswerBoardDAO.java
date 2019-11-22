@@ -45,7 +45,12 @@ private final String COLUMN = "BOARD_NUM,USER_ID, BOARD_PASS, BOARD_NAME, BOARD_
 	public AnswerBoardDAO(DataSource dataSource) {
 		this.jdbcTemplate = new JdbcTemplate(dataSource);
 	}
-	
+	public AnswerBoardDTO boardDetail(Long boardNum) {
+		sql = "select "+ COLUMN +" from boarder where BOARD_NUM = ?";
+		List<AnswerBoardDTO> list = jdbcTemplate.query(sql, boardRowMapper, boardNum);
+		AnswerBoardDTO dto = list.isEmpty()? null : list.get(0);
+		return dto;
+	}
 	public void boardInsert(AnswerBoardDTO answerBoardDTO) {
 		sql = "insert into boarder("
 				+ COLUMN + ") "
@@ -72,9 +77,30 @@ private final String COLUMN = "BOARD_NUM,USER_ID, BOARD_PASS, BOARD_NAME, BOARD_
 		List<AnswerBoardDTO> list= jdbcTemplate.query(sql,boardRowMapper,startRow, endRow);
 		return list;
 	}
-	
+	public void boardReadCountUpdate(Long boardNum) {
+		sql = "update boarder set BOARD_READCOUNT= BOARD_READCOUNT+1 where BOARD_NUM =?";
+		jdbcTemplate.update(sql,boardNum);
+	}
 	public Integer getBoardCount() {
 		sql = "select count(*) from boarder ";
 		return jdbcTemplate.queryForObject(sql, Integer.class);
+	}
+	public void boardReplyInsert(AnswerBoardDTO dto) {
+		sql = "update boarder set board_re_seq = board_re_seq +1 "
+				+ "where board_re_ref=? and board_re_seq>?";
+		jdbcTemplate.update(sql,dto.getBoardReRef(), dto.getBoardReSeq());
+		sql = "insert into boarder("
+				+ COLUMN + ") "
+				+ "values("
+						+ "board_seq.nextval,?,?,?,?,"
+						+ "?,0,?,?,?,"
+						+ "?,?,sysdate,?)";
+		Long seq = dto.getBoardReSeq() +1;
+		Long lev = dto.getBoardReLev() +1;
+		jdbcTemplate.update(sql, 
+				dto.getUserId(),dto.getBoardPass(),dto.getBoardName(),dto.getBoardSubject(),
+				dto.getBoardContent(),lev,dto.getBoardReRef(),seq,
+				dto.getOriginalFilename(),dto.getStoreFilename(),dto.getFileSize());
+		
 	}
 }

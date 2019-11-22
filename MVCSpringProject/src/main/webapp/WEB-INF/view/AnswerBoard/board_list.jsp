@@ -29,10 +29,12 @@
 		<c:forEach var="board" items="${boards }" varStatus="status">
 		<tr align="center" valign="middle">
 			<td width="8%" height="26">${status.count}</td>
-			<td width="28%" height="26">${board.boardSubject }
+			<td width="28%" height="26">
+				<a href="answerBoardDetail?num=${board.boardNum}">${board.boardSubject }
 				<c:if test="${board.originalFilename != null }">
 					<img src=""/>
 				</c:if>
+				</a>
 			</td>
 			<td width="8%" height="26">${board.boardName }</td>
 			<td width="8%" height="26"><fmt:formatDate value="${board.boardDate }" pattern="yyyy-MM-dd"/></td>

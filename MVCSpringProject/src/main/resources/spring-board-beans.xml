@@ -12,5 +12,8 @@
 <bean id = "answerBoardDAO" class="Model.DAO.AnswerBoardDAO"/>
 <bean id = "boardWriterService" class="Service.AnswerBoard.BoardWriteService"/>
 <bean id = "boardListService" class="Service.AnswerBoard.BoardListService"/>
+<bean id = "answerBoardDetailService" class="Service.AnswerBoard.AnswerBoardDetailService"/>
+<bean id = "answerBoardReplyService" class="Service.AnswerBoard.AnswerBoardReplyService"/>
+<bean id = "answerBoardReplyProService " class="Service.AnswerBoard.AnswerBoardReplyProService"/>
 
 </beans>
